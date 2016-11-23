@@ -1,0 +1,9 @@
+Player Controller
+Y AXIS	Up down move	3	SLIDER	Y Axis	0	1.0	0.0
+X AXIS	Left right move	3	SLIDER	X Axis	0	1.0	0.0
+Z AXIS	Right and left tirgger	3	SLIDER	Z Axis	0	1.0	0.0
+A	Jump?	1	BUTTON	Button 0	0	0.0	0.0
+B	Item?	1	BUTTON	Button 1	0	0.0	0.0
+X	Attack?	1	BUTTON	Button 2	0	0.0	0.0
+Y	Heavy?	1	BUTTON	Button 3	0	0.0	0.0
+MENU	Pause game???	1	BUTTON	Button 7	0	0.0	0.0

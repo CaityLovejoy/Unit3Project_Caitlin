@@ -100,7 +100,7 @@ class Player extends Entity
     if(e.getType().equals("Platform"))
     {
      _jumpAvailable = true;
-    // println("?????");
+     //println("?????");
     }
   }
   

@@ -6,12 +6,19 @@ import org.jbox2d.dynamics.contacts.*;
 import net.java.games.input.*;
 import org.gamecontrolplus.*;
 import org.gamecontrolplus.gui.*;
+import net.java.games.input.*;
 
 Box2DProcessing box2d;
 PImage PlatformImg;
 PImage PlayerIdleImg;
 Platform[] pl1;
 Player P1;
+
+ControlIO control;
+Configuration config;
+ControlDevice gpad;
+float  px, py;
+boolean trailOn;
 
 void setup()
 {
@@ -33,6 +40,8 @@ void setup()
   }
   PlayerIdleImg.resize(w, h);
   P1 = new Player(20, height-h*4.1, PlayerIdleImg, true);
+  control = ControlIO.getInstance(this);
+  gpad = control.getMatchedDevice("Player Controlls");
 }
 
 void draw()
