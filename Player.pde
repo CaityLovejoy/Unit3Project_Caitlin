@@ -8,6 +8,8 @@ class Player extends Entity
   boolean _weaponChange;
   PVector _Speed;
   boolean _jumpAvailable;
+  boolean jump; 
+  float move;
 
   Player(float x, float y, PImage img, boolean isActive)
   {
@@ -22,24 +24,26 @@ class Player extends Entity
   {
     KeyInputs();
     Movement();
-  }
+  }                 
 
   void KeyInputs()
   {
-    if (keyPressed)
-    {
-      if (key == 'd')
+    jump = gpad.getButton("A").pressed();
+    move = gpad.getSlider("X AXIS").getValue();
+    println(move);
+      if (move > 0)
       {
-        _keyRight = true;
+        _keyRight = true; //<>//
       }
-      if (key == 'a')
+      if (move < 0)
       {
-        _keyLeft = true;
+        _keyLeft = true; //<>//
       }
-      if (key == 'w')
+      if (jump)
       {
-        _keyJump = true;
+        _keyJump = true; //<>//
       }
+      
       if (key == ';')
       {
         println("asdferg");
@@ -53,7 +57,7 @@ class Player extends Entity
       {
         _weaponChange = true;
       }
-    } 
+    
     else
     {
       _keyLeft  = false;

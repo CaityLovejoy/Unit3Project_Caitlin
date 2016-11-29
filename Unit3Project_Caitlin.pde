@@ -41,7 +41,7 @@ void setup()
   PlayerIdleImg.resize(w, h);
   P1 = new Player(20, height-h*4.1, PlayerIdleImg, true);
   control = ControlIO.getInstance(this);
-  gpad = control.getMatchedDevice("Player Controlls");
+  gpad = control.getMatchedDevice("gpad");
 }
 
 void draw()
@@ -54,6 +54,11 @@ void draw()
   P1.Draw();
   P1.Update();
   box2d.step();
+  
+  /*if (gpad.getButton("A").pressed())
+  {
+    background(0,128,255);
+  }*/
 }
 
 void beginContact(Contact cp)
@@ -74,5 +79,4 @@ void beginContact(Contact cp)
     Platform pl = (Platform)o2;
     p.Collision(pl);
   }
-  
-}
+ }
