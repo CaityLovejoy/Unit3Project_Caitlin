@@ -8,8 +8,7 @@ class Player extends Entity
   boolean _weaponChange;
   PVector _Speed;
   boolean _jumpAvailable;
-  boolean jump; 
-  float move;
+
 
   Player(float x, float y, PImage img, boolean isActive)
   {
@@ -28,18 +27,16 @@ class Player extends Entity
 
   void KeyInputs()
   {
-    jump = gpad.getButton("A").pressed();
-    move = gpad.getSlider("X AXIS").getValue();
-    println(move);
-      if (move > 0)
+  println(jumptype);
+      if (movetype == 1)
       {
         _keyRight = true; //<>//
       }
-      if (move < 0)
+      if (movetype == 2)
       {
         _keyLeft = true; //<>//
       }
-      if (jump)
+      if (jumptype == 1)
       {
         _keyJump = true; //<>//
       }
@@ -70,16 +67,17 @@ class Player extends Entity
   }
   
   void Movement()
-  {
+{
     Body b = super._body;
     Vec2 currentVelocity = super._body.getLinearVelocity();
-    if (_keyRight)
+    
+    if (_keyRight == true)
     {
        currentVelocity.x = 1 * _Speed.x;
        println("Boop?");
        println(currentVelocity.x);
     }
-    else if (_keyLeft)
+    else if (_keyLeft == true)
     {
       currentVelocity.x = -1 * _Speed.x;
     }
@@ -97,7 +95,7 @@ class Player extends Entity
     println(currentVelocity);
     super._body.setLinearVelocity(currentVelocity);
   }
-  
+
   void Collision(Entity e)
   {
     //println(e.getType());
@@ -107,5 +105,5 @@ class Player extends Entity
      //println("?????");
     }
   }
-  
+
 }

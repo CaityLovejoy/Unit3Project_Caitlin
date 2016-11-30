@@ -11,8 +11,14 @@ import net.java.games.input.*;
 Box2DProcessing box2d;
 PImage PlatformImg;
 PImage PlayerIdleImg;
+PImage EnemyImg;
 Platform[] pl1;
+Enemy[] ent1;
 Player P1;
+boolean jump; 
+  float walk;
+  int movetype = 0;
+  int jumptype = 0;
 
 ControlIO control;
 Configuration config;
@@ -31,14 +37,21 @@ void setup()
   box2d.listenForCollisions(); 
   PlatformImg = loadImage("Platform.png");
   PlayerIdleImg = loadImage("PIdle.png");
+  EnemyImg = loadImage("Enemy.png");
   int w = PlatformImg.width;
   int h = PlatformImg.height;
   pl1 = new Platform[500];
+  ent1 = new Enemy[400];
   for (int x=0; x < 16; x++)
   {
     pl1[x] = new Platform(w*x, height-20, PlatformImg, true);
   }
+  for (int x=0; x <10; x++)
+  {
+    ent1[x] = new Enemy(random(0,width), height-h, EnemyImg, true);
+  }
   PlayerIdleImg.resize(w, h);
+  EnemyImg.resize(w, h);
   P1 = new Player(20, height-h*4.1, PlayerIdleImg, true);
   control = ControlIO.getInstance(this);
   gpad = control.getMatchedDevice("gpad");
@@ -51,6 +64,11 @@ void draw()
   {
     pl1[x].Draw();
   }
+  for (int x=0; x < 10; x++)
+  {
+    ent1[x].Draw();
+    ent1[x].Update();
+  }
   P1.Draw();
   P1.Update();
   box2d.step();
@@ -59,6 +77,24 @@ void draw()
   {
     background(0,128,255);
   }*/
+  jump = gpad.getButton("A").pressed();
+  walk = gpad.getSlider("X AXIS").getValue();
+  if (walk == 1.0)
+      {
+       movetype = 1;
+      }
+      else if (walk == -1.0)
+      {
+       movetype = 2;
+      }
+      else
+      {
+        movetype = 0;
+      }
+      if (jump)
+      {
+       jumptype = 1;
+      }
 }
 
 void beginContact(Contact cp)

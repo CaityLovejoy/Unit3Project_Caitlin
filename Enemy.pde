@@ -6,13 +6,15 @@ class Enemy extends Entity
   boolean _Attack;
   PVector _Speed;
   boolean _jumpAvailable;
+  float x;
+
 
   Enemy(float x, float y, PImage img, boolean isActive)
   {
     super(x, y, img, "Player", isActive);
     super.CreateBody(BodyType.DYNAMIC);
     super._body.setUserData(this);
-    _Speed = new PVector(100, 50000);
+    _Speed = new PVector(100, random(20000,50000));
     _jumpAvailable = true;
   }
  
@@ -38,13 +40,19 @@ class Enemy extends Entity
     {
       currentVelocity.x = 0;
     }
+   if(x > 0)
+      {
+        println("HEY!!!!");
+        currentVelocity.x = -1 * _Speed.x;
+     
+      }
+   if(x < width)
+      {
+        println("Boop?");
+       currentVelocity.x = -1 * _Speed.x;
+      }
+     
     
-    if (_Jump && _jumpAvailable)
-    {
-      b.applyLinearImpulse( new Vec2(0, _Speed.y), super.GetWorldCenter(),true);
-      //currentVelocity.y = 1 * _Speed.y;
-      _jumpAvailable = false;
-    }
     println(currentVelocity);
     super._body.setLinearVelocity(currentVelocity);
   }
