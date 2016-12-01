@@ -1,4 +1,4 @@
-class Player extends Entity
+class Player extends Entity //<>// //<>// //<>//
 {
   boolean _keyLeft;
   boolean _keyRight;
@@ -18,8 +18,8 @@ class Player extends Entity
     _Speed = new PVector(100, 50000);
     _jumpAvailable = true;
   }
- 
- void Update()
+
+  void Update()
   {
     KeyInputs();
     Movement();
@@ -27,68 +27,76 @@ class Player extends Entity
 
   void KeyInputs()
   {
-  println(jumptype);
-      if (movetype == 1)
-      {
-        _keyRight = true; //<>//
-      }
-      if (movetype == 2)
-      {
-        _keyLeft = true; //<>//
-      }
-      if (jumptype == 1)
-      {
-        _keyJump = true; //<>//
-      }
-      
-      if (key == ';')
-      {
-        println("asdferg");
-        _attackRight = true;
-      }
-      if (key == 'k')
-      {
-        _attackLeft = true;
-      }
-      if (key == 'q')
-      {
-        _weaponChange = true;
-      }
-    
-    else
+    println(jumptype);
+    if (movetype == 1)
     {
-      _keyLeft  = false;
+      _keyRight = true;
+    } 
+    else if (movetype == 2)
+    {
+      _keyLeft = true;
+    } 
+    if (movetype == 0)
+    {
       _keyRight = false;
-      _keyJump  = false;
-      _attackRight = false;
-      _attackLeft = false;
-      _weaponChange = false;
+      _keyLeft = false;
     }
+
+    if (jumptype == 1)
+    {
+      _keyJump = true;
+    }
+    if (jumptype == 0)
+    {
+      _keyJump = false;
+    }
+
+
+    if (key == ';')
+    {
+      println("asdferg");
+      _attackRight = true;
+    }
+    if (key == 'k')
+    {
+      _attackLeft = true;
+    }
+    if (key == 'q')
+    {
+      _weaponChange = true;
+    } /*
+    else
+     {
+     _keyLeft  = false;
+     _keyRight = false;
+     _keyJump  = false;
+     _attackRight = false;
+     _attackLeft = false;
+     _weaponChange = false;
+     }*/
   }
-  
+
   void Movement()
-{
+  {
     Body b = super._body;
     Vec2 currentVelocity = super._body.getLinearVelocity();
-    
+
     if (_keyRight == true)
     {
-       currentVelocity.x = 1 * _Speed.x;
-       println("Boop?");
-       println(currentVelocity.x);
-    }
-    else if (_keyLeft == true)
+      currentVelocity.x = 1 * _Speed.x;
+      println("Boop?");
+      println(currentVelocity.x);
+    } else if (_keyLeft == true)
     {
       currentVelocity.x = -1 * _Speed.x;
-    }
-    else
+    } else
     {
       currentVelocity.x = 0;
     }
-    
+
     if (_keyJump && _jumpAvailable)
     {
-      b.applyLinearImpulse( new Vec2(0, _Speed.y), super.GetWorldCenter(),true);
+      b.applyLinearImpulse( new Vec2(0, _Speed.y), super.GetWorldCenter(), true);
       //currentVelocity.y = 1 * _Speed.y;
       _jumpAvailable = false;
     }
@@ -99,11 +107,10 @@ class Player extends Entity
   void Collision(Entity e)
   {
     //println(e.getType());
-    if(e.getType().equals("Platform"))
+    if (e.getType().equals("Platform"))
     {
-     _jumpAvailable = true;
-     //println("?????");
+      _jumpAvailable = true;
+      //println("?????");
     }
   }
-
 }

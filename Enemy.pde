@@ -14,7 +14,7 @@ class Enemy extends Entity
     super(x, y, img, "Player", isActive);
     super.CreateBody(BodyType.DYNAMIC);
     super._body.setUserData(this);
-    _Speed = new PVector(100, random(20000,50000));
+    _Speed = new PVector(10, 0);
     _jumpAvailable = true;
   }
  
@@ -53,7 +53,7 @@ class Enemy extends Entity
       }
      
     
-    println(currentVelocity);
+   // println(currentVelocity);
     super._body.setLinearVelocity(currentVelocity);
   }
   
