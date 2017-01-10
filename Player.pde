@@ -3,20 +3,21 @@ class Player extends Entity //<>// //<>// //<>//
   boolean _keyLeft;
   boolean _keyRight;
   boolean _keyJump;
-  boolean _attackRight;
-  boolean _attackLeft;
+  boolean _Attack;
   boolean _weaponChange;
   PVector _Speed;
   boolean _jumpAvailable;
+  int _playerHealth;
 
 
-  Player(float x, float y, PImage img, boolean isActive)
+  Player(float x, float y, PImage img, boolean isActive, int playerHealth)
   {
     super(x, y, img, "Player", isActive);
     super.CreateBody(BodyType.DYNAMIC);
     super._body.setUserData(this);
     _Speed = new PVector(100, 50000);
     _jumpAvailable = true;
+    _playerHealth = playerHealth;
   }
 
   void Update()
@@ -27,7 +28,7 @@ class Player extends Entity //<>// //<>// //<>//
 
   void KeyInputs()
   {
-    println(jumptype);
+    //println(jumptype);
     if (movetype == 1)
     {
       _keyRight = true;
@@ -50,21 +51,16 @@ class Player extends Entity //<>// //<>// //<>//
     {
       _keyJump = false;
     }
-
-
-    if (key == ';')
+    if (attacktype == 0)
     {
-      println("asdferg");
-      _attackRight = true;
+      _Attack = false;
     }
-    if (key == 'k')
+    if (attacktype == 1)
     {
-      _attackLeft = true;
+      _Attack = true;
     }
-    if (key == 'q')
-    {
-      _weaponChange = true;
-    } /*
+
+     /*
     else
      {
      _keyLeft  = false;
@@ -84,8 +80,8 @@ class Player extends Entity //<>// //<>// //<>//
     if (_keyRight == true)
     {
       currentVelocity.x = 1 * _Speed.x;
-      println("Boop?");
-      println(currentVelocity.x);
+      //println("Boop?");
+      //println(currentVelocity.x);
     } else if (_keyLeft == true)
     {
       currentVelocity.x = -1 * _Speed.x;
@@ -100,17 +96,30 @@ class Player extends Entity //<>// //<>// //<>//
       //currentVelocity.y = 1 * _Speed.y;
       _jumpAvailable = false;
     }
-    println(currentVelocity);
+    
     super._body.setLinearVelocity(currentVelocity);
   }
 
   void Collision(Entity e)
   {
-    //println(e.getType());
-    if (e.getType().equals("Platform"))
+    println(e.getType());
+    if(e.getType().equals("Platform"))
     {
       _jumpAvailable = true;
-      //println("?????");
+    println("?????");
+    }
+    else
+    {
+      _jumpAvailable = false;
+      println("hi?");
+    }
+    if(e.getType().equals("Enemy"))
+    {
+     _playerHealth = _playerHealth - 10;
+    }
+    if(e.getType().equals("Enemy") && _Attack)
+    {
+      
     }
   }
 }
