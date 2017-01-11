@@ -1,3 +1,10 @@
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+
 import at.mukprojects.console.*;
 
 import shiffman.box2d.*;
@@ -9,6 +16,7 @@ import net.java.games.input.*;
 import org.gamecontrolplus.*;
 import org.gamecontrolplus.gui.*;
 import net.java.games.input.*;
+
 
 float TEXT_OFFSET = 50;
 Box2DProcessing box2d;
@@ -32,6 +40,7 @@ float  px, py;
 boolean trailOn;
 int ENEMYCOUNT = 1;
 int playerHealth = 100;
+
 
 void setup()
 {
@@ -117,9 +126,15 @@ void draw()
   {
     attacktype = 0;
   }
-  fill(playerHealth,90,90);
+  fill(P1.getHealth(),90,90);
   textSize(50);
-  text("Health:"+ playerHealth, 40, height - height/1.1 + TEXT_OFFSET);
+  text("Health:"+ P1.getHealth(), 40, height - height/1.1 + TEXT_OFFSET);
+  
+  if(P1.getHealth() == 0)
+{
+  
+}
+
 }
 
 void beginContact(Contact cp)
@@ -133,30 +148,37 @@ void beginContact(Contact cp)
   Entity e1 = (Entity) o1;
   Entity e2 = (Entity) o2;
 
-  if (e1.getType() == "Player" && e2.getType() == "Platform")
-  { 
-    Player p = (Player)o1;
-    Platform pl = (Platform)o2;
-    p.Collision(pl);
-  }
-  else if (e2.getType() == "Player" && e1.getType() == "Platform")
-  { 
-    Player p = (Player)o2;
-    Platform pl = (Platform)o1;
-    p.Collision(pl);
-  }
-   else if (e1.getType() == "Player" && e2.getType() == "Enemy")
+  if (o1.getClass() == Player.class && o2.getClass() == Enemy.class)
   {
     Player p = (Player)o1;
     Enemy en1 = (Enemy)o2;
-    p.Collision(en1);
+    p.Collision(o2);
     println("grrrrr");
   }
-  else if (e2.getType() == "Player" && e1.getType() == "Enemy")
+  else if (o2.getClass() == Player.class && o1.getClass() == Enemy.class)
   {
     Player p = (Player)o2;
     Enemy en1 = (Enemy)o1;
-    p.Collision(en1);
+    p.Collision(o1);
     println("hey!");
   }
+  if (o1.getClass() == Player.class && o2.getClass() == Platform.class)
+  { 
+    Player p = (Player)o1;
+    Platform pl = (Platform)o2;
+    p.Collision(o2);
+    println("LOLOL");
+  }
+  else if (o2.getClass() == Player.class && o1.getClass() == Platform.class)
+  { 
+    Player p = (Player)o2;
+    Platform pl = (Platform)o1;
+    p.Collision(o1);
+    println("LOLOL");
+  }
+  
+}
+
+void endContact(Contact cp) 
+{
 }

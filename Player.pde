@@ -8,6 +8,9 @@ class Player extends Entity //<>// //<>// //<>//
   PVector _Speed;
   boolean _jumpAvailable;
   int _playerHealth;
+  int startTime = 0;
+int invulnTime =250;
+AudioPlayer injury;
 
 
   Player(float x, float y, PImage img, boolean isActive, int playerHealth)
@@ -100,26 +103,35 @@ class Player extends Entity //<>// //<>// //<>//
     super._body.setLinearVelocity(currentVelocity);
   }
 
-  void Collision(Entity e)
+  void Collision(Object o)
   {
-    println(e.getType());
-    if(e.getType().equals("Platform"))
+   // println(e.getType());
+    if(o.getClass()==Platform.class)
     {
       _jumpAvailable = true;
-    println("?????");
+   // println("?????");
     }
     else
     {
       _jumpAvailable = false;
-      println("hi?");
+     // println("hi?");
     }
-    if(e.getType().equals("Enemy"))
+    if(o.getClass()==Enemy.class)
     {
-     _playerHealth = _playerHealth - 10;
+      if (millis()- startTime > invulnTime)
+      {
+        _playerHealth = _playerHealth - 10;
+        startTime = millis();
+      }
+     
     }
-    if(e.getType().equals("Enemy") && _Attack)
+    if(o.getClass()==Enemy.class && _Attack)
     {
       
     }
+  }
+  int getHealth()
+  {
+    return _playerHealth;
   }
 }

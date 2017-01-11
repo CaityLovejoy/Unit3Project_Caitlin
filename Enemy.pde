@@ -13,7 +13,7 @@ class Enemy extends Entity
   Enemy(float x, float y, PImage img, boolean isActive)
   {
     super(x, y, img, "Player", isActive);
-    super.CreateBody(BodyType.KINEMATIC);
+    super.CreateBody(BodyType.DYNAMIC);
     super._body.setUserData(this);
     _Speed = new PVector(10, 0);
     _jumpAvailable = true;
