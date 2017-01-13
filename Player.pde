@@ -10,7 +10,8 @@ class Player extends Entity //<>// //<>// //<>//
   int _playerHealth;
   int startTime = 0;
 int invulnTime =250;
-AudioPlayer injury;
+int _enemyHealth;
+int enemyTime = 0;
 
 
   Player(float x, float y, PImage img, boolean isActive, int playerHealth)
@@ -105,6 +106,7 @@ AudioPlayer injury;
 
   void Collision(Object o)
   {
+    
    // println(e.getType());
     if(o.getClass()==Platform.class)
     {
@@ -125,13 +127,22 @@ AudioPlayer injury;
       }
      
     }
-    if(o.getClass()==Enemy.class && _Attack)
+   if(o.getClass()==Enemy.class && _Attack)
     {
-      
+      Enemy en1 = (Enemy)o;
+    
+      if (millis()- enemyTime > invulnTime)
+      {
+           en1.EnemyDamage();
+        enemyTime = millis();
+      }
+    
     }
+   
   }
   int getHealth()
   {
     return _playerHealth;
   }
+  
 }

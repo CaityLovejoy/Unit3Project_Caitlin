@@ -129,10 +129,11 @@ void draw()
   fill(P1.getHealth(),90,90);
   textSize(50);
   text("Health:"+ P1.getHealth(), 40, height - height/1.1 + TEXT_OFFSET);
+  text("Enemy Health:"+ en1[0].getEnemyHealth(), 40, height - height/1.3 + TEXT_OFFSET);
   
-  if(P1.getHealth() == 0)
+  if(P1.getHealth() <= 0)
 {
-  
+  background(0,0,0);
 }
 
 }
@@ -168,6 +169,8 @@ void beginContact(Contact cp)
     Platform pl = (Platform)o2;
     p.Collision(o2);
     println("LOLOL");
+    
+    
   }
   else if (o2.getClass() == Player.class && o1.getClass() == Platform.class)
   { 

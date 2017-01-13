@@ -28,29 +28,21 @@ class Enemy extends Entity
   {
     Body b = super._body;
     Vec2 currentVelocity = super._body.getLinearVelocity();
-    if (_Right)
-    {
        currentVelocity.x = 1 * _Speed.x;
        //println("Boop?");
-    }
-    else if (_Left)
-    {
-      currentVelocity.x = -1 * _Speed.x;
-    }
-    else
-    {
-      currentVelocity.x = 0;
-    }
-   if(x > 0)
+   print("X: ");
+   println(b.getPosition().x);
+   if(b.getPosition().x < -90)
       {
-        println("HEY!!!!");
-        currentVelocity.x = -1 * _Speed.x;
-     
+       // println("HEY!!!!");
+        currentVelocity.x = -_Speed.x;
+     _Speed.x = -_Speed.x;
       }
-   if(x < width)
+   if(b.getPosition().x > 90)
       {
-        //println("Boop?");
-       currentVelocity.x = -1 * _Speed.x;
+       // println("Boop?");
+       currentVelocity.x = -_Speed.x;
+        _Speed.x = -_Speed.x;
       }
      
     
@@ -63,5 +55,14 @@ class Enemy extends Entity
     super.Draw();
   }
  
+ void EnemyDamage()
+ {
+   _enemyHealth = _enemyHealth - 10;
+ }
   
+ int getEnemyHealth()
+ {
+   return _enemyHealth;
+ }
+ 
 }
