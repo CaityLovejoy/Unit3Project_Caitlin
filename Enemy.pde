@@ -22,6 +22,10 @@ class Enemy extends Entity
  void Update()
   {
     Movement();
+    if(_enemyHealth == 0)
+    {
+      
+    }
   }
   
   void Movement()

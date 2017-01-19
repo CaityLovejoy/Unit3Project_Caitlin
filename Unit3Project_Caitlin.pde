@@ -40,7 +40,9 @@ float  px, py;
 boolean trailOn;
 int ENEMYCOUNT = 1;
 int playerHealth = 100;
-
+EntityManager em;
+int w;
+int h;
 
 void setup()
 {
@@ -61,19 +63,17 @@ void setup()
   EnemyImg.resize(w, h);
   pl1 = new Platform[500];
   en1 = new Enemy[400];
-  for (int x=0; x < pl1.length; x++)
-  {
-    pl1[x] = new Platform(w*x, height-20, PlatformImg, true);
-  }
+
  for (int x=0; x < ENEMYCOUNT; x++)
   {
     en1[x] = new Enemy(random(0, width), height-h, EnemyImg, true);
   }
   PlayerIdleImg.resize(w, h);
   
-  P1 = new Player(width/2, height-h, PlayerIdleImg, true, playerHealth);
   control = ControlIO.getInstance(this);
   gpad = control.getMatchedDevice("gpad");
+  em = new EntityManager();
+  
 }
 
 void draw()
@@ -184,4 +184,17 @@ void beginContact(Contact cp)
 
 void endContact(Contact cp) 
 {
+}
+
+void LoadDefaultEntities()
+{
+  //Load player
+  //Load platforms
+  em.CreateEntity(new Player(width/2, height-h, PlayerIdleImg, true, playerHealth));
+  
+   int platNum = (int)(width/w + 0.5);
+    for (int x=0; x < platNum; x++)
+  {
+    em.CreateEntity(new Platform(w*x, height-20, PlatformImg, true));
+  }
 }
