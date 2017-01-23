@@ -4,11 +4,12 @@ class EntityManager
   int playerID;
   boolean playerAdded = false;
   int deadEnemies;
+  AudioPlayer gameOver;
 
   EntityManager()
   {
     entityList = new ArrayList<Entity>();
-
+    gameOver = minim.loadFile("gameOver.wav");
     //entityList.add(thingToAdd)
     //entityList.get(numberToGet)
     //entityList.remove(thingToRemove)
@@ -32,31 +33,34 @@ class EntityManager
   {
     for (int i=0; i< entityList.size(); i++)
     {
-     
+
       Entity e = entityList.get(i);
-       switch(e._type)
-       {
-       case "Platform":
-       Platform pl = (Platform)e;
-       pl.Draw();
-       break;
-       case "Enemy":
-       Enemy en = (Enemy)e;
-       en.Draw();
-       en.Movement();
-       if(en._enemyHealth <= 0)
-     {
-       entityList.remove(en);
-       deadEnemies = deadEnemies + 1;
-     }
-       break;
-       case "Player":
-       Player P1 = (Player)e;
-       P1.Draw();
-       P1.Update();
-      
-       break;
-       }
+      switch(e._type)
+      {
+      case "Platform":
+        Platform pl = (Platform)e;
+        pl.Draw();
+        break;
+      case "Enemy":
+        Enemy en = (Enemy)e;
+        en.Draw();
+        en.Movement();
+        if (en._enemyHealth <= 0)
+        {
+        entityList.remove(e);
+        deadEnemies = deadEnemies + 1;
+        }
+        break;
+      case "Player":
+        Player P1 = (Player)e;
+        P1.Draw();
+        P1.Update();
+        if (P1._playerHealth <= 0)
+        {
+          endGame();
+        }
+        break;
+      }
     }
   }
   Player GetPlayer()
@@ -70,5 +74,12 @@ class EntityManager
       println("No player has been added.");
       return null;
     }
+  }
+  
+  void endGame()
+  {
+    background(0, 0, 0);
+    gameOver.play();
+    text("GAMEOVER", 500, height - height/1.1 + TEXT_OFFSET);
   }
 }

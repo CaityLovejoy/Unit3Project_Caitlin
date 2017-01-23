@@ -38,7 +38,7 @@ Configuration config;
 ControlDevice gpad;
 float  px, py;
 boolean trailOn;
-int ENEMYCOUNT = 1;
+int ENEMYCOUNT = 4;
 int playerHealth = 100;
 EntityManager em;
 int w;
@@ -78,15 +78,11 @@ void setup()
 
 void draw()
 {
+
   c.draw();
   c.print();
   background(150, 128, 255);
   box2d.step();
-  if(enemySpawnTime == millis())
-  {
-    em.CreateEntity(new Enemy(random(0, width), height-h, EnemyImg, true));
-    enemySpawnTime = millis()+500;
-  }
   jump = gpad.getButton("A").pressed();
   walk = gpad.getSlider("X AXIS").getValue();
   attack = gpad.getButton("X").pressed();
@@ -172,6 +168,7 @@ void beginContact(Contact cp)
 void endContact(Contact cp) 
 {
 }
+
 
 void LoadDefaultEntities()
 {

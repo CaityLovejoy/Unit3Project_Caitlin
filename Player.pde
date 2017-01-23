@@ -9,12 +9,13 @@ class Player extends Entity //<>// //<>// //<>//
   boolean _jumpAvailable;
   int _playerHealth;
   int startTime = 0;
-int invulnTime =250;
-int _enemyHealth;
-int enemyTime = 0;
-String _type;
-PImage _img;
-
+  int invulnTime =250;
+  int _enemyHealth;
+  int enemyTime = 0;
+  String _type;
+  PImage _img;
+  AudioPlayer playerDamage;
+  AudioPlayer Jump;
 
   Player(float x, float y, PImage img, boolean isActive, int playerHealth)
   {
@@ -25,7 +26,8 @@ PImage _img;
     _jumpAvailable = true;
     _playerHealth = playerHealth;
     _img = img;
-
+    playerDamage = minim.loadFile("playerDamage.wav");
+    Jump = minim.loadFile("Jump.wav");
   }
 
   void Update()
@@ -40,8 +42,7 @@ PImage _img;
     if (movetype == 1)
     {
       _keyRight = true;
-    } 
-    else if (movetype == 2)
+    } else if (movetype == 2)
     {
       _keyLeft = true;
     } 
@@ -68,7 +69,7 @@ PImage _img;
       _Attack = true;
     }
 
-     /*
+    /*
     else
      {
      _keyLeft  = false;
@@ -102,53 +103,50 @@ PImage _img;
     {
       b.applyLinearImpulse( new Vec2(0, _Speed.y), super.GetWorldCenter(), true);
       //currentVelocity.y = 1 * _Speed.y;
-      
+      Jump.play();
+      Jump.rewind();
       _jumpAvailable = false;
     }
-    
+
     super._body.setLinearVelocity(currentVelocity);
   }
 
   void Collision(Object o)
   {
-    
-   // println(e.getType());
-    if(o.getClass()==Platform.class)
+
+    // println(e.getType());
+    if (o.getClass()==Platform.class)
     {
       _jumpAvailable = true;
-   // println("?????");
-    }
-    else
+      // println("?????");
+    } else
     {
       _jumpAvailable = false;
-     // println("hi?");
+      // println("hi?");
     }
-    if(o.getClass()==Enemy.class)
+    if (o.getClass()==Enemy.class)
     {
       if (millis()- startTime > invulnTime)
       {
         _playerHealth = _playerHealth - 10;
+        playerDamage.play();
+        playerDamage.rewind();
         startTime = millis();
-        
       }
-     
     }
-   if(o.getClass()==Enemy.class && _Attack)
+    if (o.getClass()==Enemy.class && _Attack)
     {
       Enemy en1 = (Enemy)o;
-    
+
       if (millis()- enemyTime > invulnTime)
       {
         en1.Damage();
         enemyTime = millis();
       }
-    
     }
-   
   }
   int getHealth()
   {
     return _playerHealth;
   }
-  
 }
