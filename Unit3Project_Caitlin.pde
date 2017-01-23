@@ -43,9 +43,12 @@ int playerHealth = 100;
 EntityManager em;
 int w;
 int h;
+Minim minim;
+int enemySpawnTime;
 
 void setup()
 {
+  minim = new Minim(this);
   fullScreen(P3D);
   colorMode(HSB);
   c = new Console(this);
@@ -65,7 +68,6 @@ void setup()
   en1 = new Enemy[400];
 
   PlayerIdleImg.resize(w, h);
-
   control = ControlIO.getInstance(this);
   gpad = control.getMatchedDevice("gpad");
   em = new EntityManager();
@@ -80,7 +82,11 @@ void draw()
   c.print();
   background(150, 128, 255);
   box2d.step();
-
+  if(enemySpawnTime == millis())
+  {
+    em.CreateEntity(new Enemy(random(0, width), height-h, EnemyImg, true));
+    enemySpawnTime = millis()+500;
+  }
   jump = gpad.getButton("A").pressed();
   walk = gpad.getSlider("X AXIS").getValue();
   attack = gpad.getButton("X").pressed();
@@ -114,12 +120,14 @@ void draw()
   fill(P1.getHealth(), 90, 90);
   textSize(50);
   text("Health:"+ P1.getHealth(), 40, height - height/1.1 + TEXT_OFFSET);
+  text("Points: "+ em.deadEnemies, 500, height - height/1.1 + TEXT_OFFSET);
  //text("Enemy Health:"+ en1[0].getEnemyHealth(), 40, height - height/1.3 + TEXT_OFFSET);
 
   if (P1.getHealth() <= 0)
   {
     background(0, 0, 0);
   }
+  em.UpdateEntities();
 }
 
 void beginContact(Contact cp)
@@ -173,7 +181,7 @@ void LoadDefaultEntities()
   P1 = em.GetPlayer();
   println(P1._type);
 
-  int platNum = (int)(width/w + 0.5);
+  int platNum = (int)(width/w + 1.5);
   for (int x=0; x < platNum; x++)
   {
     em.CreateEntity(new Platform(w*x, height-20, PlatformImg, true));
@@ -182,4 +190,5 @@ void LoadDefaultEntities()
   {
     em.CreateEntity(new Enemy(random(0, width), height-h, EnemyImg, true));
   }
+ 
 }

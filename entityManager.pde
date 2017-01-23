@@ -1,9 +1,10 @@
 class EntityManager
 {
   ArrayList<Entity> entityList;
- int playerID;
- boolean playerAdded = false;
- 
+  int playerID;
+  boolean playerAdded = false;
+  int deadEnemies;
+
   EntityManager()
   {
     entityList = new ArrayList<Entity>();
@@ -16,7 +17,7 @@ class EntityManager
 
   void CreateEntity(Entity e)
   {
-    if(e._type.equals("Player"))
+    if (e._type.equals("Player"))
     {
       entityList.add(e);
       playerID = entityList.size() -1 ;
@@ -26,38 +27,45 @@ class EntityManager
     entityList.add(e);
   }
 
+
   void UpdateEntities()
   {
     for (int i=0; i< entityList.size(); i++)
     {
+     
       Entity e = entityList.get(i);
-      switch(e._type)
-      {
-      case "Player":
-        Player p = (Player)e;
-        p.Draw();
-        p.Update();
-        break;
-      case "Platform":
-        Platform pl = (Platform)e;
-        pl.Draw();
-        break;
-      case "Enemy":
-        Enemy en = (Enemy)e;
-        en.Draw();
-        en.Update();
-        break;
-      }
+       switch(e._type)
+       {
+       case "Platform":
+       Platform pl = (Platform)e;
+       pl.Draw();
+       break;
+       case "Enemy":
+       Enemy en = (Enemy)e;
+       en.Draw();
+       en.Movement();
+       if(en._enemyHealth <= 0)
+     {
+       entityList.remove(en);
+       deadEnemies = deadEnemies + 1;
+     }
+       break;
+       case "Player":
+       Player P1 = (Player)e;
+       P1.Draw();
+       P1.Update();
+      
+       break;
+       }
     }
   }
   Player GetPlayer()
   {
-    if(playerAdded)
+    if (playerAdded)
     {
       Player p = (Player)entityList.get(playerID);
       return p;
-    }
-    else
+    } else
     {
       println("No player has been added.");
       return null;

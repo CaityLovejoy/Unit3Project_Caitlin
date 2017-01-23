@@ -12,6 +12,8 @@ class Player extends Entity //<>// //<>// //<>//
 int invulnTime =250;
 int _enemyHealth;
 int enemyTime = 0;
+String _type;
+PImage _img;
 
 
   Player(float x, float y, PImage img, boolean isActive, int playerHealth)
@@ -22,6 +24,8 @@ int enemyTime = 0;
     _Speed = new PVector(100, 50000);
     _jumpAvailable = true;
     _playerHealth = playerHealth;
+    _img = img;
+
   }
 
   void Update()
@@ -98,6 +102,7 @@ int enemyTime = 0;
     {
       b.applyLinearImpulse( new Vec2(0, _Speed.y), super.GetWorldCenter(), true);
       //currentVelocity.y = 1 * _Speed.y;
+      
       _jumpAvailable = false;
     }
     
@@ -124,6 +129,7 @@ int enemyTime = 0;
       {
         _playerHealth = _playerHealth - 10;
         startTime = millis();
+        
       }
      
     }
@@ -133,7 +139,7 @@ int enemyTime = 0;
     
       if (millis()- enemyTime > invulnTime)
       {
-           en1.EnemyDamage();
+        en1.Damage();
         enemyTime = millis();
       }
     

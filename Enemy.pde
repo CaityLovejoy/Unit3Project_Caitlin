@@ -8,25 +8,22 @@ class Enemy extends Entity
   boolean _jumpAvailable;
   float x;
   int _enemyHealth = 30;
-
+String _type;
+PImage _img;
+AudioPlayer enemyDamage;
 
   Enemy(float x, float y, PImage img, boolean isActive)
   {
-    super(x, y, img, "Player", isActive);
+    super(x, y, img, "Enemy", isActive);
     super.CreateBody(BodyType.DYNAMIC);
     super._body.setUserData(this);
     _Speed = new PVector(10, 0);
     _jumpAvailable = true;
+    _img = img;
+    enemyDamage = minim.loadFile("enemyDamage.wav");
   }
  
- void Update()
-  {
-    Movement();
-    if(_enemyHealth == 0)
-    {
-      
-    }
-  }
+
   
   void Movement()
   {
@@ -48,7 +45,7 @@ class Enemy extends Entity
        currentVelocity.x = -_Speed.x;
         _Speed.x = -_Speed.x;
       }
-     
+    
     
    // println(currentVelocity);
     super._body.setLinearVelocity(currentVelocity);
@@ -58,15 +55,24 @@ class Enemy extends Entity
   {
     super.Draw();
   }
- 
- void EnemyDamage()
- {
-   _enemyHealth = _enemyHealth - 10;
- }
+
   
  int getEnemyHealth()
  {
    return _enemyHealth;
  }
+ 
+ String getType()
+  {
+    return _type;
+  }
+  
+  void Damage()
+  {
+     _enemyHealth = _enemyHealth - 10;
+     enemyDamage.play();
+     enemyDamage.rewind();
+     
+  }
  
 }
